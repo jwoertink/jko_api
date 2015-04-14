@@ -1,0 +1,27 @@
+module JkoApi
+  concern :ControllerHelpers do
+    included do
+      class_attribute :authenticated
+      self.authenticated = false
+      append_before_action { raise 'setup authentication' unless authenticated }
+    end
+
+    class_methods do
+      def authenticate(*args)
+        options, model_classes = args.extract_options!, args
+        options.reverse_merge! optional: false
+        # This is for use with Devise.
+        # TODO: make this configurable
+        # options[:fallback_to_devise] = !options.delete(:optional)
+        # model_classes.each do |model_class|
+        #   acts_as_token_authentication_handler_for model_class, options
+        # end
+        self.authenticated = true
+      end
+
+      def skip_authentication
+        self.authenticated = true
+      end
+    end
+  end
+end

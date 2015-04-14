@@ -23,7 +23,7 @@ module JkoApi
     end
 
     class MockRequest
-      include ActiveModel::Model
+      include ::ActiveModel::Model
 
       def representable_type
         :requests

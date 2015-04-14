@@ -1,5 +1,7 @@
 module JkoApi
-  concern :ControllerHelpers do
+  module ControllerHelpers
+    extend ActiveSupport::Concern
+
     included do
       class_attribute :authenticated
       self.authenticated = false

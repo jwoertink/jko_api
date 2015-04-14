@@ -1,3 +1,5 @@
+require "rails"
+require "responders"
 require "jko_api/version"
 require "jko_api/class_descendants_builder"
 require "jko_api/constraints"

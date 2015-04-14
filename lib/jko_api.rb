@@ -1,4 +1,6 @@
-require "rails"
+require "active_support/all"
+require "active_model/railtie"
+require "action_controller/railtie"
 require "responders"
 require "jko_api/version"
 require "jko_api/class_descendants_builder"
@@ -8,7 +10,7 @@ require "jko_api/middleware"
 require "jko_api/request_error"
 require "jko_api/responder"
 require "jko_api/versioning"
-require "jko_api/railtie"
+require "jko_api/engine"
 
 module JkoApi
   ACCEPT_HEADER_REGEX = /\Aapplication\/vnd\.api(\.v([0-9]))?\+json\z/

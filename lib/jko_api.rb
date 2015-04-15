@@ -11,18 +11,25 @@ require "jko_api/middleware"
 require "jko_api/request_error"
 require "jko_api/responder"
 require "jko_api/versioning"
+require "jko_api/configuration"
 require "jko_api/engine"
 
 
 module JkoApi
   ACCEPT_HEADER_REGEX = /\Aapplication\/vnd\.api(\.v([0-9]))?\+json\z/
 
-  mattr_accessor :base_controller, instance_accessor: false
+  mattr_accessor :configuration, instance_accessor: false
   mattr_reader :current_version_number, instance_reader: false
 
+  def self.configure
+    self.configuration ||= Configuration.new
+    yield(configuration)
+    setup(configuration.base_controller)
+  end
+
   def self.setup(base_controller)
+    Rails.application.reload_routes! unless defined?(@@versioning)
     ClassDescendantsBuilder.build base_controller, level: max_version_number
-    self.base_controller = base_controller
   end
 
   def self.activated?

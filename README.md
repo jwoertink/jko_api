@@ -26,6 +26,15 @@ Or install it yourself as:
 
 ## Usage
 
+In your `config/initializers/jko_api.rb` add
+
+```ruby
+JkoApi.configure do |c|
+  # This is the default. You can override this if you need a different controller
+  # c.base_controller = Api::ApplicationController
+end
+```
+
 In your `config/routes.rb`
 
 ```ruby

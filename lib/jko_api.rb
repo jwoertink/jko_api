@@ -12,6 +12,7 @@ require "jko_api/responder"
 require "jko_api/versioning"
 require "jko_api/engine"
 
+
 module JkoApi
   ACCEPT_HEADER_REGEX = /\Aapplication\/vnd\.api(\.v([0-9]))?\+json\z/
 
@@ -49,5 +50,11 @@ module JkoApi
 
   def self.versions(context, &block)
     @@versioning = Versioning.new(context, &block)
+  end
+
+  def self.routes(context, &block)
+    context.scope(module: 'api', constraints: JkoApi::Constraints, defaults: {format: :json}) do
+      JkoApi.versions(context, &block)
+    end
   end
 end

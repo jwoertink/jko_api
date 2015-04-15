@@ -6,6 +6,7 @@ module JkoApi
       app.middleware.use JkoApi::Middleware
     end
     config.to_prepare do
+      Rails.application.reload_routes!
       JkoApi.setup Api::ApplicationController
     end
   end

@@ -1,5 +1,6 @@
 class Api::ApplicationController < ActionController::Base
   include JkoApi::ControllerHelpers
+  skip_authentication # TODO: make this configurable
 
   self.responder = JkoApi::Responder
   respond_to :json

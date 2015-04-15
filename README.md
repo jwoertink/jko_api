@@ -29,19 +29,17 @@ Or install it yourself as:
 In your `config/routes.rb`
 
 ```ruby
-scope module: 'api', constraints: JkoApi::Constraints, defaults: {format: :json} do
-  JkoApi.versions self do
-    version 1 do
-      # put base routes and routes for version 1 here
-      resources :foos
-      resources :bars
-    end
-    version 2 # no route changes, maybe just a controller change
-    version 3 do
-      resources :bars, only: [:index] # only changes :bars in version 3
-    end
+JkoApi.routes self do
+  version 1 do
+    # put base routes and routes for version 1 here
+    resources :foos
+    resources :bars
   end
-end
+  version 2 # no route changes, maybe just a controller change
+  version 3 do
+    resources :bars, only: [:index] # only changes :bars in version 3
+  end
+end  
 ```
 
 Place your version 1 controller code in `app/controllers/api/v1`. Controllers should all inherit from `Api::ApplicationController`, or something that inherits from that.
@@ -77,6 +75,8 @@ class Api::V3::BarsController < Api::ApplicationController
   end
 end
 ```
+
+You can test this all by booting up a simple rails app, then do `curl -H "Accept: application/vnd.api.v1+json" http://localhost:3000/bars`
 
 
 ## Contributing

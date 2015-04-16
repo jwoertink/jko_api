@@ -12,6 +12,7 @@ require "jko_api/request_error"
 require "jko_api/responder"
 require "jko_api/versioning"
 require "jko_api/configuration"
+require "jko_api/util"
 require "jko_api/engine"
 
 
@@ -28,7 +29,7 @@ module JkoApi
   end
 
   def self.setup(base_controller)
-    Rails.application.reload_routes! unless defined?(@@versioning)
+    Util.stupid_hack!
     ClassDescendantsBuilder.build base_controller, level: max_version_number
   end
 
@@ -61,7 +62,7 @@ module JkoApi
   end
 
   def self.routes(context, &block)
-    context.scope(module: 'api', constraints: JkoApi::Constraints, defaults: {format: :json}) do
+    context.scope(module: JkoApi.configuration.api_namespace, constraints: JkoApi::Constraints, defaults: {format: :json}) do
       JkoApi.versions(context, &block)
     end
   end

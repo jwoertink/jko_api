@@ -6,7 +6,7 @@ This gem lets you make a single change and reversion an API without copying over
 
 ## Props
 
-99.999999999999% of this gem was written by [Justin Ko](https://github.com/justinko). Since he's lazy and won't make a gem from it, I'm doing it for him :stuck_out_tongue: That's why the gem is named after him.
+99% of this gem was written by [Justin Ko](https://github.com/justinko). Since he's lazy and won't make a gem from it, I'm doing it for him :stuck_out_tongue: That's why the gem is named after him.
 
 ## Installation
 
@@ -32,6 +32,8 @@ In your `config/initializers/jko_api.rb` add
 JkoApi.configure do |c|
   # This is the default. You can override this if you need a different controller
   # c.base_controller = Api::ApplicationController
+  # This is the folder name where all the api controllers would go
+  # c.api_namespace = 'api'
 end
 ```
 

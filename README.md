@@ -89,6 +89,10 @@ end
 
 You can test this all by booting up a simple rails app, then do `curl -H "Accept: application/vnd.api.v1+json" http://localhost:3000/bars`
 
+## Debugging notes
+
+If you have a route that matches one of the API routes, and it's listed first, then Rails will match that route first. This might not be what you expected, so put your `JkoApi.routes` near the top to ensure that gets hit first.
+
 
 ## Contributing
 

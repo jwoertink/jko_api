@@ -2,45 +2,49 @@ module JkoApi
   class ClassDescendantsBuilder
     LEVEL_REGEX = /\d+/
 
-    def self.build(base_class, level:)
+    def self.build(base_class, upto:)
       base_class.descendants.each do |descendant|
-        new(descendant, level).build
+        new(descendant, upto).build
       end
     end
 
-    def initialize(descendant, level)
-      @descendant, @level = descendant, level
+    attr_reader :descendant, :upto
+
+    def initialize(descendant, upto)
+      @descendant, @upto = descendant, upto
     end
 
     def build
-      initial_level.upto(@level - 1) do |level|
-        build_descendant(level) unless descendant_defined?(level)
+      initial_level.upto(upto) do |level|
+        unless Module.qualified_const_defined?(swap_level(level.next))
+          build_descendant level
+        end
       end
     end
 
     private
 
-    def descendant_defined?(level)
-      !!swap_level(level.next).safe_constantize
-    end
-
     def build_descendant(level)
-      namespace(level.next).constantize.const_set(
+      namespace(level.next).const_set(
         swap_level(level.next).demodulize,
         Class.new(swap_level(level).constantize)
       )
     end
 
     def namespace(level)
-      swap_level(level).deconstantize.presence || 'Object'
+      deconstantized = swap_level(level).deconstantize
+      unless Module.qualified_const_defined?(deconstantized)
+        Module.qualified_const_set deconstantized, Module.new
+      end
+      deconstantized.constantize
     end
 
     def swap_level(level)
-      @descendant.name.sub LEVEL_REGEX, level.to_s
+      descendant.name.sub LEVEL_REGEX, level.to_s
     end
 
     def initial_level
-      @descendant.name[LEVEL_REGEX].to_i
+      descendant.name[LEVEL_REGEX].to_i
     end
   end
 end

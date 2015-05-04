@@ -4,7 +4,12 @@ module JkoApi
 
     included do
       include JkoApi::ControllerHelpers
-      skip_authentication # TODO: make this configurable
+
+      if JkoApi.configuration.use_authentication
+        prepend_before_action :authenticate!
+      else
+        skip_authentication
+      end
 
       self.responder = JkoApi::Responder
       respond_to :json
@@ -14,6 +19,14 @@ module JkoApi
 
     def render_json_errors(status, message = status)
       render json: JkoApi::RequestError[status, message], status: status
+    end
+
+    def warden
+      request.env['warden']
+    end
+
+    def authenticate!
+      warden.authenticate!
     end
   end
 end

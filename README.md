@@ -144,6 +144,18 @@ class MyCustomTokenVerifier
 end
 ```
 
+## Testing
+If you're trying to test controllers, keep in mind that Rails doesn't process the middleware stack for controller tests. This means that the `JkoApi::Middleware` as well as the `JkoApi::Strategies` modules won't exist, and neither will `warden`. You can [read up more here](https://github.com/hassox/warden/issues/117).
+
+My recommendation for testing api endpoints is doing an integration test. With RSpec, just create your `spec/requests` folder, and add your spec for the endpoint you want to test.
+
+If you need access to a mock warden object, you can add
+
+```ruby
+require 'jko_api/test_helpers'
+include JkoApi::TestHelpers
+```
+
 ## Debugging notes
 
 If you have a route that matches one of the API routes, and it's listed first, then Rails will match that route first. This might not be what you expected, so put your `JkoApi.routes` near the top to ensure that gets hit first.

@@ -8,6 +8,10 @@ This gem lets you make a single change and reversion an API without copying over
 
 99% of this gem was written by [Justin Ko](https://github.com/justinko). Since he's lazy and won't make a gem from it, I'm doing it for him :stuck_out_tongue: That's why the gem is named after him.
 
+# Requirements
+
+Rails 5 and Ruby 2.3
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -31,7 +35,7 @@ In your `config/initializers/jko_api.rb` add
 ```ruby
 JkoApi.configure do |c|
   # This is the default. You can override this if you need a different controller
-  # c.base_controller = Api::ApplicationController
+  # c.base_controller = ApiApplicationController
   # This is the folder name where all the api controllers would go
   # c.api_namespace = 'api'
 end
@@ -53,10 +57,10 @@ JkoApi.routes self do
 end  
 ```
 
-Place your version 1 controller code in `app/controllers/api/v1`. Controllers should all inherit from `Api::ApplicationController`, or something that inherits from that.
+Place your version 1 controller code in `app/controllers/api/v1`. Controllers should all inherit from `ApiApplicationController`, or something that inherits from that.
 
 ```ruby
-class Api::V1::BarsController < Api::ApplicationController
+class Api::V1::BarsController < ApiApplicationController
   def index
     # do stuff
   end
@@ -80,7 +84,7 @@ end
 We can still do this though
 
 ```ruby
-class Api::V3::BarsController < Api::ApplicationController
+class Api::V3::BarsController < ApiApplicationController
   def index
     # do different stuff
   end
@@ -88,6 +92,8 @@ end
 ```
 
 You can test this all by booting up a simple rails app, then do `curl -H "Accept: application/vnd.api.v1+json" http://localhost:3000/bars`
+
+The `Accept` header is required to make the calls.
 
 ## Debugging notes
 

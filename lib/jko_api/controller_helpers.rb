@@ -5,7 +5,11 @@ module JkoApi
     included do
       class_attribute :authenticated
       self.authenticated = false
-      append_before_action { raise 'setup authentication' unless authenticated }
+      append_before_action do
+        unless authenticated
+          render(json: {error: 'Authentication Failed'}, status: 401)
+        end
+      end
     end
 
     class_methods do

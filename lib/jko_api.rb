@@ -22,6 +22,7 @@ module JkoApi
   ACCEPT_HEADER_REGEX = /\Aapplication\/vnd\.api(\.v([0-9]))?\+json\z/
 
   mattr_accessor :configuration, instance_accessor: false
+  mattr_accessor :auth_initializer, instance_accessor: false
   mattr_reader :current_version_number, instance_reader: false
 
   def self.configure
@@ -32,7 +33,8 @@ module JkoApi
 
   def self.setup(base_controller)
     Util.stupid_hack!
-    ClassDescendantsBuilder.build base_controller, upto: max_version_number
+    ClassDescendantsBuilder.build(base_controller, upto: max_version_number)
+    @@auth_initializer.call
   end
 
   def self.activated?
@@ -67,5 +69,9 @@ module JkoApi
     context.scope(module: JkoApi.configuration.api_namespace, constraints: JkoApi::Constraints, defaults: {format: :json}) do
       JkoApi.versions(context, &block)
     end
+  end
+
+  def self.auth_setup(&block)
+    self.auth_initializer = block
   end
 end

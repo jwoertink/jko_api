@@ -26,7 +26,8 @@ module JkoApi
     end
 
     def authenticate!
-      warden.authenticate!
+      token = warden.authenticate!
+      self.authenticated = !!token
     end
   end
 end

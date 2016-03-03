@@ -5,7 +5,7 @@ module JkoApi
     attr_reader :strategy
 
     def initialize
-      @base_controller = Api::ApplicationController
+      @base_controller = ApiApplicationController
       @api_namespace = 'api'
       @use_authentication = false
       @strategy = :bearer

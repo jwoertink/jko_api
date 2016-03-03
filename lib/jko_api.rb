@@ -32,7 +32,7 @@ module JkoApi
 
   def self.setup(base_controller)
     Util.stupid_hack!
-    ClassDescendantsBuilder.build base_controller, level: max_version_number
+    ClassDescendantsBuilder.build base_controller, upto: max_version_number
   end
 
   def self.activated?

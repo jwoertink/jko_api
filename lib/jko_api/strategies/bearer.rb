@@ -2,7 +2,7 @@ module JkoApi
   module Strategies
     class Bearer
 
-      def initializer(app, options ={})
+      def initialize(app, options ={})
         @mgr = Warden::Manager.new(app, options) do |config|
           config.strategies.add :bearer, Warden::OAuth2::Strategies::Bearer
           config.default_strategies :bearer

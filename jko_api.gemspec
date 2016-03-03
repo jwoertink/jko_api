@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jeremywoertink@gmail.com"]
   spec.summary       = %q{A Rails API gem}
   spec.description   = %q{Some Rails API code written by JustinKo and ported to a badly written gem}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/jwoertink/jko_api"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -21,5 +21,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_dependency "responders", "2.1.0"
-  spec.add_dependency "rails", ">= 4.2.0", "< 5"
+  spec.add_dependency "rails", ">= 5.0.0.beta3", "< 5.1"
+  spec.add_dependency "warden-oauth2"
 end

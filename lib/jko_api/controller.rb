@@ -5,7 +5,7 @@ module JkoApi
     included do
       include JkoApi::ControllerHelpers
 
-      if JkoApi.configuration&.use_authentication
+      if JkoApi.configuration.try(:use_authentication)
         prepend_before_action :authenticate!
       else
         skip_authentication

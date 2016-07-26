@@ -6,7 +6,7 @@ module JkoApi
       app.middleware.use JkoApi::Middleware, only: proc { |env|
         env['HTTP_ACCEPT'] && env['HTTP_ACCEPT'].include?('application/vnd.api') }
 
-      if JkoApi.configuration&.authenticate?
+      if JkoApi.configuration.try(:authenticate?)
         app.middleware.use "JkoApi::Strategies::#{JkoApi.configuration.strategy.to_s.capitalize}".constantize, only: proc { |env| env['HTTP_ACCEPT'] && env['HTTP_ACCEPT'].include?('application/vnd.api')  }
       end
     end

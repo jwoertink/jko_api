@@ -34,7 +34,7 @@ module JkoApi
     def namespace(level)
       deconstantized = swap_level(level).deconstantize
       unless Module.const_defined?(deconstantized)
-        Module.qualified_const_set deconstantized, Module.new
+        Module.const_set deconstantized, Module.new
       end
       deconstantized.constantize
     end

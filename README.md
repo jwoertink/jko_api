@@ -10,7 +10,7 @@ This gem lets you make a single change and reversion an API without copying over
 
 ## Requirements
 
-Rails 5 and Ruby 2.3
+Rails 5+ and Ruby 2.3
 
 ## Installation
 

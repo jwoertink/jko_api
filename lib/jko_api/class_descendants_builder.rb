@@ -16,7 +16,7 @@ module JkoApi
 
     def build
       initial_level.upto(upto) do |level|
-        unless Module.qualified_const_defined?(swap_level(level.next))
+        unless Module.const_defined?(swap_level(level.next))
           build_descendant level
         end
       end
@@ -33,7 +33,7 @@ module JkoApi
 
     def namespace(level)
       deconstantized = swap_level(level).deconstantize
-      unless Module.qualified_const_defined?(deconstantized)
+      unless Module.const_defined?(deconstantized)
         Module.qualified_const_set deconstantized, Module.new
       end
       deconstantized.constantize

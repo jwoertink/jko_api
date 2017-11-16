@@ -16,8 +16,8 @@ module JkoApi
 
     def build
       initial_level.upto(upto) do |level|
-        unless Module.const_defined?(swap_level(level.next))
-          build_descendant level
+        unless Module.const_defined?(swap_level(level))
+          build_descendant level.pred
         end
       end
     end
@@ -25,9 +25,9 @@ module JkoApi
     private
 
     def build_descendant(level)
-      namespace(level.next).const_set(
-        swap_level(level.next).demodulize,
-        Class.new(swap_level(level).constantize)
+      namespace(level).const_set(
+        swap_level(level).demodulize,
+        Class.new(swap_level(level.next).constantize)
       )
     end
 

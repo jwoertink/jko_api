@@ -68,7 +68,7 @@ module JkoApi
       const_name = path.demodulize
       mod_name = path.deconstantize
       mod = mod_name.empty? ? self : qualified_const_get(mod_name)
-      mod.const_set(const_name, value)
+      mod.const_set(const_name, value) unless mod.const_defined?(const_name)
     end
 
     def qualified_const_get(path)

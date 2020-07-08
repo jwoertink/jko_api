@@ -24,15 +24,18 @@ module JkoApi
   mattr_accessor :configuration, instance_accessor: false
   mattr_accessor :auth_initializer, instance_accessor: false
   mattr_reader :current_version_number, instance_reader: false
+  @@versioning = nil
 
   def self.configure
     self.configuration ||= Configuration.new
     yield(configuration)
-    setup(configuration.base_controller)
+    self.configuration
   end
 
-  def self.setup(base_controller)
-    Util.stupid_hack!
+  def self.complete_setup(base_controller)
+    if Rails.version.to_i < 5
+      Util.stupid_hack!
+    end
     ClassDescendantsBuilder.build(base_controller, upto: max_version_number)
     @@auth_initializer.call
   end
@@ -69,6 +72,8 @@ module JkoApi
     context.scope(module: JkoApi.configuration.api_namespace, constraints: JkoApi::Constraints, defaults: {format: :json}) do
       JkoApi.versions(context, &block)
     end
+    complete_setup(configuration.base_controller)
+    context
   end
 
   def self.auth_setup(&block)

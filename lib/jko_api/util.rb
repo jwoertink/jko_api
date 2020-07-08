@@ -1,6 +1,8 @@
 module JkoApi
   class Util
 
+    # This was a hack needed in rails 4.2
+    # I'm keeping the code for backwards compatibility (for now)
     def self.stupid_hack!
       Rails.application.reload_routes!
       eager_load_api_controllers
